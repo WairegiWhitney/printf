@@ -1,24 +1,8 @@
 
 #include "main.h"
+int _strlen(char *s);
+void stringfromint(int no, char *str);
 
-/**
- * _strlen - length of string
- * @s: string input
- * Return: int
- */
-
-int _strlen(char *s)
-{
-	int i = 0;
-
-	while (*s != '\0')
-	{
-		i++;
-		s++;
-	}
-
-	return (i);
-}
 
 /**
  * _printf - Custom implementation of printf function
@@ -60,6 +44,16 @@ int _printf(const char *format, ...)
 				write(1, str, _strlen(str));
 				chars_count += _strlen(str);
 			}
+			else if ((*format == 'd') || (*format == 'i'))
+			{
+				int num = va_arg(my_args_list, int);
+				char str[100];
+				int no = num;
+
+				stringfromint(no, str);
+				write(1, str, _strlen(str));
+				chars_count += _strlen(str);
+			}
 			else if (*format == '%')
 			{
 				write(1, format, 1);
@@ -69,4 +63,71 @@ int _printf(const char *format, ...)
 	}
 	va_end(my_args_list);
 	return (chars_count);
+}
+
+
+
+/**
+ * _strlen - length of string
+ * @s: string input
+ * Return: int
+ */
+
+int _strlen(char *s)
+{
+	int i = 0;
+
+	while (*s != '\0')
+	{
+		i++;
+		s++;
+	}
+
+	return (i);
+}
+
+/**
+ * change2string - change integer to string
+ * @no: integer
+ * @str: string
+ * Return: void
+*/
+
+void stringfromint(int no, char *str)
+{
+	int i = 0;
+	int negtrue = 0;
+	int start = 0;
+	int end;
+
+	if (no == 0)
+	{
+		str[i++] = '0';
+		return;
+	}
+	if (no < 0)
+	{
+		negtrue++;
+		no = -no;
+	}
+	while (no)
+	{
+		str[i++] = no % 10 + '0';
+		no /= 10;
+	}
+
+	if (negtrue)
+		str[i++] = '-';
+
+	str[i] = '\0';
+	end = i - 1;
+	while (start < end)
+	{
+		char temp = str[start];
+
+		str[start] = str[end];
+		str[end] = temp;
+		start++;
+		end--;
+	}
 }
