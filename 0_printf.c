@@ -2,6 +2,25 @@
 #include "main.h"
 
 /**
+ * _strlen - length of string
+ * @s: string input
+ * Return: int
+ */
+
+int _strlen(char *s)
+{
+	int i = 0;
+
+	while (*s != '\0')
+	{
+		i++;
+		s++;
+	}
+
+	return (i);
+}
+
+/**
  * _printf - Custom implementation of printf function
  * @format: The format string
  * ...: Variable arguments
@@ -15,10 +34,9 @@ int _printf(const char *format, ...)
 
 	if (format == NULL)
 		return (-1);
-
 	va_start(my_args_list, format);
 
-	while (*format)
+	for (; *format != '\0'; format++)
 	{
 		if (*format != '%')
 		{
@@ -28,10 +46,6 @@ int _printf(const char *format, ...)
 		else
 		{
 			format++;
-
-			if (*format == '\0')
-				break;
-
 			if (*format == 'c')
 			{
 				char c = va_arg(my_args_list, int);
@@ -42,15 +56,9 @@ int _printf(const char *format, ...)
 			else if (*format == 's')
 			{
 				char *str = va_arg(my_args_list, char *);
-				int str_len = 0;
 
-				while (str[str_len] != '\0')
-				{
-					str_len++;
-				}
-
-				write(1, str, str_len);
-				chars_count += str_len;
+				write(1, str, _strlen(str));
+				chars_count += _strlen(str);
 			}
 			else if (*format == '%')
 			{
@@ -58,10 +66,7 @@ int _printf(const char *format, ...)
 				chars_count++;
 			}
 		}
-
-		format++;
 	}
-
 	va_end(my_args_list);
 	return (chars_count);
 }
