@@ -1,3 +1,4 @@
+#include "main.h"
 void dec2binstring(unsigned int no, char *str, int *chars_count);
 /**
  * dec2binstring - change integer to binary as a string,
