@@ -2,7 +2,7 @@
 #include "main.h"
 int _strlen(char *s);
 void stringfromint(int no, char *str);
-void dec2binstring(unsigned no, char *str, int *chars_count);
+void dec2binstring(unsigned int no, char *str, int *chars_count);
 void rev_string(char *s, int b);
 
 
@@ -184,18 +184,4 @@ int _strlen(char *s)
 	}
 
 	return (i);
-}
-
-int main(void)
-{
-	int no = 700;
-
-	_printf("Integer = %d, String = %s\n", no, "hello");
-	_printf("Hello, World!\n");
-	_printf("Hello, %s!\n", "World");
-	_printf("Hello, %c!\n", 'W');
-	_printf("Hello, %%!\n");
-	_printf("integer = %i\n", 100);
-	_printf("binary: %b", 10);
-	return (0);
 }
