@@ -24,7 +24,7 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			buffer[buffer_indx]=*format;
+			buffer[buffer_indx++]=*format;
 			chars_count++;
 			if (buffer[buffer_indx]=BUFF_SIZE)
             {
@@ -38,7 +38,7 @@ int _printf(const char *format, ...)
 			{
 				char c = va_arg(my_args_list, int);
 
-				buffer[buffer_indx]=*format;
+				buffer[buffer_indx++]=c;
 				chars_count++;
 				if (buffer[buffer_indx]=BUFF_SIZE)
             {
@@ -47,35 +47,47 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == 's')
 			{
-				char *str = va_arg(my_args_list, char *);
+			    int str_length=0;
 
-				buffer[buffer_indx]=*format;
+            char *str = va_arg(my_args_list, char *);
+				while (str[str_length] != '\0'){
+                    str_length++;
+
+
+				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
 				if (buffer[buffer_indx]=BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
+				}
+
 			}
 			else if ((*format == 'd') || (*format == 'i'))
 			{
 				int num = va_arg(my_args_list, int);
 				char str[100];
 				int no = num;
-
 				stringfromint(no, str);
-				buffer[buffer_indx]=*format;
+				int str_length=0;
+                while (str[str_length] != '\0'){
+                    str_length++;
+
+
+				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
 				if (buffer[buffer_indx]=BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
+                }
 			}
 			else if (*format == 'b')
 			{
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
 				dec2binstring(num, &chars_count);
-				buffer[buffer_indx]=*format;
+				buffer[buffer_indx++]=*format;
 	if (buffer[buffer_indx]=BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
@@ -86,7 +98,7 @@ int _printf(const char *format, ...)
 				int num = va_arg(my_args_list, int);
 
 				print_unsigned_int(num, &chars_count);
-				buffer[buffer_indx]=*format;
+				buffer[buffer_indx++]=format;
 	if (buffer[buffer_indx]=BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
@@ -97,7 +109,7 @@ int _printf(const char *format, ...)
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
 				dec2octalstring(num, &chars_count);
-				buffer[buffer_indx]=*format;
+				buffer[buffer_indx++]=*format;
 	if (buffer[buffer_indx]=BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
@@ -108,7 +120,7 @@ int _printf(const char *format, ...)
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
 				dec2hexstring(num, &chars_count);
-				buffer[buffer_indx]=*format;
+				buffer[buffer_indx++]=*format;
 	if (buffer[buffer_indx]=BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
@@ -119,7 +131,7 @@ int _printf(const char *format, ...)
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
 				dec2HEXstring(num, &chars_count);
-				buffer[buffer_indx]=*format;
+				buffer[buffer_indx++]=*format;
 	if (buffer[buffer_indx]=BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
@@ -127,7 +139,7 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == '%')
 			{
-				buffer[buffer_indx]=*format;
+				buffer[++buffer_indx]=*format;
 				chars_count++;
 				if (buffer[buffer_indx]=BUFF_SIZE)
             {
@@ -138,6 +150,7 @@ int _printf(const char *format, ...)
 	}
 	if(buffer_indx>0){
         write(1,buffer,buffer_indx);
+        buffer_indx=0;
 	}
 	va_end(my_args_list);
 	return (chars_count);
@@ -393,5 +406,6 @@ int main()
 {
      _printf("Character:[%c]\n", 'H');
      _printf("String:[%s]\n", "I am a string !");
+     _printf("Character:[%i]\n", 2233);
     return 0;
 }
