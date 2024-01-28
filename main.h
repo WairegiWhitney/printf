@@ -8,6 +8,8 @@
 
 
 int _printf(const char *format, ...);
+
+int get_precision(const char *format, int *i, va_list list)
 int _strlen(char *s);
 
 
