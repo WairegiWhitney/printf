@@ -2,8 +2,13 @@
 #include "main.h"
 int _strlen(char *s);
 void stringfromint(int no, char *str);
-void dec2binstring(unsigned int no, char *str, int *chars_count);
+void dec2binstring(unsigned int no, int *chars_count);
 void rev_string(char *s, int b);
+void print_unsigned_int(int no, int *chars_count);
+void dec2octalstring(unsigned int no, int *chars_count);
+void dec2hexstring(unsigned int no, int *chars_count);
+void dec2HEXstring(unsigned int no, int *chars_count);
+
 
 
 /**
@@ -59,10 +64,32 @@ int _printf(const char *format, ...)
 			else if (*format == 'b')
 			{
 				unsigned int num = va_arg(my_args_list, unsigned int);
-				char str[100];
-				int no = num;
 
-				dec2binstring(no, str, &chars_count);
+				dec2binstring(num, &chars_count);
+			}
+			else if (*format == 'u')
+			{
+				int num = va_arg(my_args_list, int);
+
+				print_unsigned_int(num, &chars_count);
+			}
+			else if (*format == 'o')
+			{
+				unsigned int num = va_arg(my_args_list, unsigned int);
+
+				dec2octalstring(num, &chars_count);
+			}
+			else if (*format == 'x')
+			{
+				unsigned int num = va_arg(my_args_list, unsigned int);
+
+				dec2hexstring(num, &chars_count);
+			}
+			else if (*format == 'X')
+			{
+				unsigned int num = va_arg(my_args_list, unsigned int);
+
+				dec2HEXstring(num, &chars_count);
 			}
 			else if (*format == '%')
 			{
@@ -113,6 +140,174 @@ void stringfromint(int no, char *str)
 	end = i - 1;
 	rev_string(str, end);
 }
+<<<<<<< HEAD
+=======
+
+/**
+ * dec2binstring - change integer to binary as a string,
+ * increment printf chars_count, print output to stdout
+ * @no: integer to change
+ * @chars_count: number of chars printed
+ * Return: void
+*/
+void dec2binstring(unsigned int no, int *chars_count)
+{
+	int i = 0;
+	int end;
+	char str[100];
+
+	if (no == 0)
+	{
+		str[i++] = '0';
+		return;
+	}
+	while (no)
+	{
+		str[i++] = no % 2 + '0';
+		no /= 2;
+	}
+
+
+	str[i] = '\0';
+	end = i - 1;
+	rev_string(str, end);
+	*chars_count += _strlen(str);
+	write(1, str, _strlen(str));
+}
+
+/**
+ * dec2octalstring - change integer to octal as a string,
+ * increment printf chars_count, print output to stdout
+ * @no: integer to change
+ * @chars_count: number of chars printed
+ * Return: void
+*/
+void dec2octalstring(unsigned int no, int *chars_count)
+{
+	char str[100];
+
+	int i = 0;
+	int end;
+
+	if (no == 0)
+	{
+		str[i++] = '0';
+		return;
+	}
+	while (no)
+	{
+		str[i++] = no % 8 + '0';
+		no /= 8;
+	}
+
+
+	str[i] = '\0';
+	end = i - 1;
+	rev_string(str, end);
+	*chars_count += _strlen(str);
+	write(1, str, _strlen(str));
+}
+
+/**
+ * dec2HEXstring - change integer to hex(in capital letters) as a string,
+ * increment printf chars_count, print output to stdout
+ * @no: integer to change
+ * @chars_count: number of chars printed
+ * Return: void
+*/
+void dec2HEXstring(unsigned int no, int *chars_count)
+{
+	int i = 0;
+	int number;
+	int end;
+	char str[100];
+
+	if (no == 0)
+	{
+		str[i++] = '0';
+		return;
+	}
+	while (no)
+	{
+		number = no % 16;
+		if (number < 10)
+			str[i++] = number + '0';
+		else
+			str[i++] = number + 55;
+		no /= 16;
+	}
+
+
+	str[i] = '\0';
+	end = i - 1;
+	rev_string(str, end);
+	*chars_count += _strlen(str);
+	write(1, str, _strlen(str));
+}
+
+/**
+ * dec2hexstring - change integer to hex(in small letters) as a string,
+ * increment printf chars_count, print output to stdout
+ * @no: integer to change
+ * @chars_count: number of chars printed
+ * Return: void
+*/
+void dec2hexstring(unsigned int no, int *chars_count)
+{
+	int i = 0;
+	int number;
+	int end;
+	char str[100];
+
+	if (no == 0)
+	{
+		str[i++] = '0';
+		return;
+	}
+	while (no)
+	{
+		number = no % 16;
+		if (number < 10)
+			str[i++] = number + '0';
+		else
+			str[i++] = number + 87;
+		no /= 16;
+	}
+
+
+	str[i] = '\0';
+	end = i - 1;
+	rev_string(str, end);
+	*chars_count += _strlen(str);
+	write(1, str, _strlen(str));
+}
+
+/**
+ * print_unsigned_int - print unsigned int
+ * @no: integer to change
+ * @chars_count: number of chars printed
+ * Return: void
+*/
+void print_unsigned_int(int no, int *chars_count)
+{
+	char str[100];
+
+	if (no < 0)
+		no = -no;
+	if (no == 0)
+	{
+		str[0] = '0';
+		str[1] = '\0';
+	}
+	else
+	{
+		stringfromint(no, str);
+	}
+	write(1, str, _strlen(str));
+	*chars_count += _strlen(str);
+}
+
+>>>>>>> 8e96432e38d6b6c611554fad67ae666b7b1ff971
 /**
  *rev_string - reverses string
  * @s: character pointer
