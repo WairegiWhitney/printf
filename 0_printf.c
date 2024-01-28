@@ -2,6 +2,8 @@
 #include "main.h"
 int _strlen(char *s);
 void stringfromint(int no, char *str);
+void dec2binstring(unsigned no, char *str, int *chars_count);
+void rev_string(char *s, int b);
 
 
 /**
@@ -54,6 +56,14 @@ int _printf(const char *format, ...)
 				write(1, str, _strlen(str));
 				chars_count += _strlen(str);
 			}
+			else if (*format == 'b')
+			{
+				unsigned int num = va_arg(my_args_list, unsigned int);
+				char str[100];
+				int no = num;
+
+				dec2binstring(no, str, &chars_count);
+			}
 			else if (*format == '%')
 			{
 				write(1, format, 1);
@@ -68,26 +78,7 @@ int _printf(const char *format, ...)
 
 
 /**
- * _strlen - length of string
- * @s: string input
- * Return: int
- */
-
-int _strlen(char *s)
-{
-	int i = 0;
-
-	while (*s != '\0')
-	{
-		i++;
-		s++;
-	}
-
-	return (i);
-}
-
-/**
- * change2string - change integer to string
+ * stringfromint - change integer to string
  * @no: integer
  * @str: string
  * Return: void
@@ -97,7 +88,6 @@ void stringfromint(int no, char *str)
 {
 	int i = 0;
 	int negtrue = 0;
-	int start = 0;
 	int end;
 
 	if (no == 0)
@@ -121,13 +111,91 @@ void stringfromint(int no, char *str)
 
 	str[i] = '\0';
 	end = i - 1;
-	while (start < end)
-	{
-		char temp = str[start];
+	rev_string(str, end);
+}
 
-		str[start] = str[end];
-		str[end] = temp;
-		start++;
-		end--;
+/**
+ * dec2binstring - change integer to binary as a string,
+ * increment printf chars_count, print output to stdout
+ * @no: integer to change
+ * @str: string which is the binary code
+ * Return: void
+*/
+void dec2binstring(unsigned int no, char *str, int *chars_count)
+{
+	int i = 0;
+	int end;
+
+	if (no == 0)
+	{
+		str[i++] = '0';
+		return;
 	}
+	while (no)
+	{
+		str[i++] = no % 2 + '0';
+		no /= 2;
+	}
+
+
+	str[i] = '\0';
+	end = i - 1;
+	rev_string(str, end);
+	*chars_count += _strlen(str);
+	write(1, str, _strlen(str));
+}
+
+
+
+/**
+ * rev_string - reverses string
+ * @s: character pointer
+ * @b: size of string
+ * Return: void
+ */
+void rev_string(char *s, int b)
+{
+	int i = 0;
+
+	while (i < b)
+	{
+		char temp = *(s + i);
+		*(s + i) = *(s + b);
+		*(s + b) = temp;
+		i++;
+		b--;
+	}
+}
+
+/**
+ * _strlen - length of string
+ * @s: string input
+ * Return: int
+ */
+
+int _strlen(char *s)
+{
+	int i = 0;
+
+	while (*s != '\0')
+	{
+		i++;
+		s++;
+	}
+
+	return (i);
+}
+
+int main(void)
+{
+	int no = 700;
+
+	_printf("Integer = %d, String = %s\n", no, "hello");
+	_printf("Hello, World!\n");
+	_printf("Hello, %s!\n", "World");
+	_printf("Hello, %c!\n", 'W');
+	_printf("Hello, %%!\n");
+	_printf("integer = %i\n", 100);
+	_printf("binary: %b", 10);
+	return (0);
 }
