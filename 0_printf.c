@@ -26,7 +26,7 @@ int _printf(const char *format, ...)
 		{
 			buffer[buffer_indx++]=*format;
 			chars_count++;
-			if (buffer_indx==1020)
+			if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -40,7 +40,7 @@ int _printf(const char *format, ...)
 
 				buffer[buffer_indx++]=c;
 				chars_count++;
-				if (buffer_indx==1020)
+				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -56,7 +56,7 @@ int _printf(const char *format, ...)
 
 				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
-				if (buffer_indx==1020)
+				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -79,7 +79,7 @@ int _printf(const char *format, ...)
 
 				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
-				if (buffer_indx==1020)
+				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -91,7 +91,7 @@ int _printf(const char *format, ...)
 
 				dec2binstring(num, &chars_count);
 				buffer[buffer_indx++]=*format;
-	if (buffer_indx==1020)
+	if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -102,7 +102,7 @@ int _printf(const char *format, ...)
 
 				print_unsigned_int(num, &chars_count);
 				buffer[buffer_indx++]=*format;
-	if (buffer_indx==1020)
+	if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -113,7 +113,7 @@ int _printf(const char *format, ...)
 
 				dec2octalstring(num, &chars_count);
 				buffer[buffer_indx++]=*format;
-	if (buffer_indx==1020)
+	if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
