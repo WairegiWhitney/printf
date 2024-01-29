@@ -51,7 +51,7 @@ int _printf(const char *format, ...)
 
             char *str = va_arg(my_args_list, char *);
 				while (str[str_length] != '\0'){
-                    str_length++;
+                    
 
 
 				buffer[buffer_indx++]=str[str_length];
@@ -60,6 +60,8 @@ int _printf(const char *format, ...)
             {
                 write(1,buffer,buffer_indx);
             }
+			
+				str_length++;
 				}
 
 			}
@@ -99,7 +101,7 @@ int _printf(const char *format, ...)
 
 				print_unsigned_int(num, &chars_count);
 				buffer[buffer_indx++]=format;
-	if (buffer[buffer_indx]=BUFF_SIZE)
+	if (buffer[buffer_indx]==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }

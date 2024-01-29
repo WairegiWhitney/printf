@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define BUFF_SIZE 1024
+#define BUFF_SIZE (1024)
 
 int _strlen(char *s);
 void stringfromint(int no, char *str);
@@ -19,7 +19,7 @@ void dec2HEXstring(unsigned int no, int *chars_count);
 
 int _printf(const char *format, ...);
 
-int get_precision(const char *format, int *i, va_list list)
+
 int _strlen(char *s);
 
 
