@@ -74,11 +74,12 @@ int _printf(const char *format, ...)
 				stringfromint(no, str);
 				
                 while (str[str_length] != '\0'){
-                    str_length++;
-
+                   
 
 				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
+				 str_length++;
+
 				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
@@ -87,11 +88,14 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == 'b')
 			{
+				int str_length=0;
+				
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
 				dec2binstring(num, &chars_count);
-				buffer[buffer_indx++]=*format;
-	if (buffer_indx==BUFF_SIZE)
+				
+				buffer[buffer_indx++]=num;
+				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -101,8 +105,9 @@ int _printf(const char *format, ...)
 				int num = va_arg(my_args_list, int);
 
 				print_unsigned_int(num, &chars_count);
+
 				buffer[buffer_indx++]=*format;
-	if (buffer_indx==BUFF_SIZE)
+				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -142,9 +147,9 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == '%')
 			{
-				buffer[++buffer_indx]=*format;
+				buffer[buffer_indx++]=*format;
 				chars_count++;
-				if (buffer_indx==1020)
+				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -405,3 +410,20 @@ int _strlen(char *s)
 }
 
 
+/*int main(void/)
+{
+	int no = 700;
+
+	_printf("Integer = %d, String = %s\n", no, "hello");
+	_printf("Hello, World!\n");
+	_printf("Hello, %s!\n", "World");
+	_printf("Hello, %c!\n", 'W');
+	_printf("Hello, %%!\n");
+	_printf("integer = %i\n", 100);
+	_printf("binary: %b\n", 10);
+	_printf("unsigned int: %u\n", -890);
+	_printf("octal: %o\n", 10);
+	_printf("hex: %x\n", 100);
+	_printf("HEX: %X\n", 100);
+	return (0);
+}*/
