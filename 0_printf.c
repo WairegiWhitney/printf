@@ -13,7 +13,7 @@ int _printf(const char *format, ...)
 {
 	int chars_count = 0;
 	va_list my_args_list;
-	char buffer[BUFF_SIZE];
+	char buffer[1020];
 	int buffer_indx=0;
 
 	if (format == NULL)
@@ -26,7 +26,7 @@ int _printf(const char *format, ...)
 		{
 			buffer[buffer_indx++]=*format;
 			chars_count++;
-			if (buffer[buffer_indx]==BUFF_SIZE)
+			if (buffer[buffer_indx]==1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -40,7 +40,7 @@ int _printf(const char *format, ...)
 
 				buffer[buffer_indx++]=c;
 				chars_count++;
-				if (buffer[buffer_indx]=BUFF_SIZE)
+				if (buffer[buffer_indx]=1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -56,7 +56,7 @@ int _printf(const char *format, ...)
 
 				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
-				if (buffer[buffer_indx]=BUFF_SIZE)
+				if (buffer[buffer_indx]=1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -78,7 +78,7 @@ int _printf(const char *format, ...)
 
 				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
-				if (buffer[buffer_indx]=BUFF_SIZE)
+				if (buffer[buffer_indx]=1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -90,7 +90,7 @@ int _printf(const char *format, ...)
 
 				dec2binstring(num, &chars_count);
 				buffer[buffer_indx++]=*format;
-	if (buffer[buffer_indx]=BUFF_SIZE)
+	if (buffer[buffer_indx]=1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -101,7 +101,7 @@ int _printf(const char *format, ...)
 
 				print_unsigned_int(num, &chars_count);
 				buffer[buffer_indx++]=format;
-	if (buffer[buffer_indx]==BUFF_SIZE)
+	if (buffer[buffer_indx]==1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -112,7 +112,7 @@ int _printf(const char *format, ...)
 
 				dec2octalstring(num, &chars_count);
 				buffer[buffer_indx++]=*format;
-	if (buffer[buffer_indx]=BUFF_SIZE)
+	if (buffer[buffer_indx]=1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -134,7 +134,7 @@ int _printf(const char *format, ...)
 
 				dec2HEXstring(num, &chars_count);
 				buffer[buffer_indx++]=*format;
-	if (buffer[buffer_indx]=BUFF_SIZE)
+	if (buffer[buffer_indx]=1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -143,7 +143,7 @@ int _printf(const char *format, ...)
 			{
 				buffer[++buffer_indx]=*format;
 				chars_count++;
-				if (buffer[buffer_indx]=BUFF_SIZE)
+				if (buffer[buffer_indx]=1020)
             {
                 write(1,buffer,buffer_indx);
             }
@@ -404,10 +404,3 @@ int _strlen(char *s)
 }
 
 
-int main()
-{
-     _printf("Character:[%c]\n", 'H');
-     _printf("String:[%s]\n", "I am a string !");
-     _printf("Character:[%i]\n", 2233);
-    return 0;
-}

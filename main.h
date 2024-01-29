@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define BUFF_SIZE (1024)
+#define BUFF_SIZE 1024
 
 int _strlen(char *s);
 void stringfromint(int no, char *str);
