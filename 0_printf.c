@@ -67,16 +67,17 @@ int _printf(const char *format, ...)
 			}
 			else if ((*format == 'd') || (*format == 'i'))
 			{
+				int str_length=0;
 				int num = va_arg(my_args_list, int);
 				char str[100];
 				int no = num;
 				stringfromint(no, str);
-				int str_length2=0;
-                while (str[str_length2] != '\0'){
-                    str_length2++;
+				
+                while (str[str_length] != '\0'){
+                    str_length++;
 
 
-				buffer[buffer_indx++]=str[str_length2];
+				buffer[buffer_indx++]=str[str_length];
 				chars_count += _strlen(str);
 				if (buffer_indx==1020)
             {
