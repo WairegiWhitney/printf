@@ -472,7 +472,7 @@ int _strlen(char *s)
 	return (i);
 }
 
-
+/*
 int main(void)
 {
 	int no = 700;
@@ -492,6 +492,7 @@ int main(void)
 }
 
 
+*/
 
 /*
 int main() {
