@@ -100,7 +100,7 @@ int _printf(const char *format, ...)
 				int num = va_arg(my_args_list, int);
 
 				print_unsigned_int(num, &chars_count);
-				buffer[buffer_indx++]=format;
+				buffer[buffer_indx++]=*format;
 	if (buffer_indx==1020)
             {
                 write(1,buffer,buffer_indx);
@@ -143,7 +143,7 @@ int _printf(const char *format, ...)
 			{
 				buffer[++buffer_indx]=*format;
 				chars_count++;
-				if (buffer[buffer_indx]==1020)
+				if (buffer_indx==1020)
             {
                 write(1,buffer,buffer_indx);
             }
