@@ -71,12 +71,12 @@ int _printf(const char *format, ...)
 				char str[100];
 				int no = num;
 				stringfromint(no, str);
-				int str_length=0;
-                while (str[str_length] != '\0'){
-                    str_length++;
+				int str_length2=0;
+                while (str[str_length2] != '\0'){
+                    str_length2++;
 
 
-				buffer[buffer_indx++]=str[str_length];
+				buffer[buffer_indx++]=str[str_length2];
 				chars_count += _strlen(str);
 				if (buffer_indx==1020)
             {
