@@ -15,6 +15,7 @@ int _printf(const char *format, ...)
 	va_list my_args_list;
 	char buffer[1020];
 	int buffer_indx=0;
+	int delete_string = 0;
 
 	if (format == NULL)
 		return (-1);
@@ -29,6 +30,8 @@ int _printf(const char *format, ...)
 			if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
+				for (;delete_string <= _strlen(buffer); delete_string++)
+					buffer[delete_string] = '\0';
             }
 		}
 		else
@@ -43,25 +46,27 @@ int _printf(const char *format, ...)
 				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
+				for (;delete_string <= _strlen(buffer); delete_string++)
+					buffer[delete_string] = '\0';
             }
 			}
 			else if (*format == 's')
 			{
-			    int str_length=0;
+			int str_length=0;
 
             char *str = va_arg(my_args_list, char *);
-				while (str[str_length] != '\0'){
-                    
-
-
-				buffer[buffer_indx++]=str[str_length];
-				chars_count += _strlen(str);
-				if (buffer_indx==BUFF_SIZE)
-            {
-                write(1,buffer,buffer_indx);
-            }
-			
-				str_length++;
+			while (str[str_length] != '\0')
+				{
+					buffer[buffer_indx++]=str[str_length];
+					if (buffer_indx==BUFF_SIZE)
+					{
+						write(1,buffer,buffer_indx);
+						for (;delete_string <= _strlen(buffer); delete_string++)
+							buffer[delete_string] = '\0';
+					}
+				
+					chars_count++;
+					str_length++;
 				}
 
 			}
@@ -74,16 +79,16 @@ int _printf(const char *format, ...)
 				stringfromint(no, str);
 				
                 while (str[str_length] != '\0'){
-                   
+					buffer[buffer_indx++]=str[str_length];
+					chars_count ++;
+					str_length++;
 
-				buffer[buffer_indx++]=str[str_length];
-				chars_count += _strlen(str);
-				 str_length++;
-
-				if (buffer_indx==BUFF_SIZE)
-            {
-                write(1,buffer,buffer_indx);
-            }
+					if (buffer_indx==BUFF_SIZE)
+						{
+							write(1,buffer,buffer_indx);
+							for (;delete_string <= _strlen(buffer); delete_string++)
+								buffer[delete_string] = '\0';
+						}
                 }
 			}
 			else if (*format == 'b')
@@ -92,58 +97,38 @@ int _printf(const char *format, ...)
 				
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
-				dec2binstring(num, &chars_count);
+				dec2binstring(num, &chars_count, buffer, &buffer_indx);
 				
-				buffer[buffer_indx++]=num;
-				if (buffer_indx==BUFF_SIZE)
-            {
-                write(1,buffer,buffer_indx);
-            }
+				
+
 			}
 			else if (*format == 'u')
 			{
 				int num = va_arg(my_args_list, int);
 
-				print_unsigned_int(num, &chars_count);
+				print_unsigned_int(num, &chars_count, buffer, &buffer_indx);
 
-				buffer[buffer_indx++]=*format;
-				if (buffer_indx==BUFF_SIZE)
-            {
-                write(1,buffer,buffer_indx);
-            }
 			}
 			else if (*format == 'o')
 			{
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
-				dec2octalstring(num, &chars_count);
-				buffer[buffer_indx++]=*format;
-	if (buffer_indx==BUFF_SIZE)
-            {
-                write(1,buffer,buffer_indx);
-            }
+				dec2octalstring(num, &chars_count, buffer, &buffer_indx);
+				
 			}
 			else if (*format == 'x')
 			{
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
-				dec2hexstring(num, &chars_count);
-				buffer[buffer_indx++]=*format;
-	if (buffer_indx==BUFF_SIZE)
-            {
-                write(1,buffer,buffer_indx);
-            }
+				dec2hexstring(num, &chars_count, buffer, &buffer_indx);
+				
 			}
 			else if (*format == 'X')
 			{
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
-				dec2HEXstring(num, &chars_count);
-				buffer[buffer_indx++]=*format;
-	if (buffer_indx==1020)
-            {
-                write(1,buffer,buffer_indx);
-            }
+				dec2HEXstring(num, &chars_count, buffer, &buffer_indx);
+				
 			}
 			else if (*format == '%')
 			{
@@ -152,6 +137,8 @@ int _printf(const char *format, ...)
 				if (buffer_indx==BUFF_SIZE)
             {
                 write(1,buffer,buffer_indx);
+				for (;delete_string <= _strlen(buffer); delete_string++)
+					buffer[delete_string] = '\0';
             }
 			}
 		}
@@ -211,11 +198,13 @@ void stringfromint(int no, char *str)
  * @chars_count: number of chars printed
  * Return: void
 */
-void dec2binstring(unsigned int no, int *chars_count)
+void dec2binstring(unsigned int no, int *chars_count, char *buffer, int *buffer_indx)
 {
 	int i = 0;
 	int end;
 	char str[100];
+	int str_length  = 0;
+	int delete_string = 0;
 
 	if (no == 0)
 	{
@@ -228,11 +217,23 @@ void dec2binstring(unsigned int no, int *chars_count)
 		no /= 2;
 	}
 
-
 	str[i] = '\0';
 	end = i - 1;
 	rev_string(str, end);
 	*chars_count += _strlen(str);
+
+	while (str[str_length] != '\0'){
+					buffer[(*buffer_indx)++]=str[str_length];
+					
+					str_length++;
+
+					if ((*buffer_indx)==BUFF_SIZE)
+						{
+							write(1,buffer,(*buffer_indx));
+							for (;delete_string <= _strlen(buffer); delete_string++)
+								buffer[delete_string] = '\0';
+						}
+                }
 
 }
 
@@ -243,12 +244,14 @@ void dec2binstring(unsigned int no, int *chars_count)
  * @chars_count: number of chars printed
  * Return: void
 */
-void dec2octalstring(unsigned int no, int *chars_count)
+void dec2octalstring(unsigned int no, int *chars_count, char *buffer, int *buffer_indx)
 {
 	char str[100];
 
 	int i = 0;
 	int end;
+	int str_length = 0;
+	int delete_string = 0;
 
 	if (no == 0)
 	{
@@ -267,6 +270,19 @@ void dec2octalstring(unsigned int no, int *chars_count)
 	rev_string(str, end);
 	*chars_count += _strlen(str);
 
+	while (str[str_length] != '\0'){
+					buffer[(*buffer_indx)++]=str[str_length];
+					
+					str_length++;
+
+					if ((*buffer_indx)==BUFF_SIZE)
+						{
+							write(1,buffer,(*buffer_indx));
+							for (;delete_string <= _strlen(buffer); delete_string++)
+								buffer[delete_string] = '\0';
+						}
+                }
+
 }
 
 /**
@@ -276,13 +292,15 @@ void dec2octalstring(unsigned int no, int *chars_count)
  * @chars_count: number of chars printed
  * Return: void
 */
-void dec2HEXstring(unsigned int no, int *chars_count)
+void dec2HEXstring(unsigned int no, int *chars_count, char *buffer, int *buffer_indx)
 {
 	int i = 0;
 	int number;
 	int end;
 	char str[100];
+	int delete_string = 0;
 
+	int str_length = 0;
 	if (no == 0)
 	{
 		str[i++] = '0';
@@ -304,6 +322,20 @@ void dec2HEXstring(unsigned int no, int *chars_count)
 	rev_string(str, end);
 	*chars_count += _strlen(str);
 
+
+	while (str[str_length] != '\0'){
+		buffer[(*buffer_indx)++]=str[str_length];
+					
+		str_length++;
+
+		if ((*buffer_indx)==BUFF_SIZE)
+						{
+							write(1,buffer,(*buffer_indx));
+							for (;delete_string <= _strlen(buffer); delete_string++)
+								buffer[delete_string] = '\0';
+						}
+                }
+
 }
 
 /**
@@ -313,12 +345,14 @@ void dec2HEXstring(unsigned int no, int *chars_count)
  * @chars_count: number of chars printed
  * Return: void
 */
-void dec2hexstring(unsigned int no, int *chars_count)
+void dec2hexstring(unsigned int no, int *chars_count, char *buffer, int *buffer_indx)
 {
 	int i = 0;
 	int number;
 	int end;
 	char str[100];
+	int str_length = 0;
+	int delete_string = 0;
 
 	if (no == 0)
 	{
@@ -341,6 +375,19 @@ void dec2hexstring(unsigned int no, int *chars_count)
 	rev_string(str, end);
 	*chars_count += _strlen(str);
 
+	while (str[str_length] != '\0'){
+					buffer[(*buffer_indx)++]=str[str_length];
+					
+					str_length++;
+
+					if ((*buffer_indx)==BUFF_SIZE)
+						{
+							write(1,buffer,(*buffer_indx));
+							for (;delete_string <= _strlen(buffer); delete_string++)
+								buffer[delete_string] = '\0';
+						}
+                }
+
 }
 
 /**
@@ -349,9 +396,11 @@ void dec2hexstring(unsigned int no, int *chars_count)
  * @chars_count: number of chars printed
  * Return: void
 */
-void print_unsigned_int(int no, int *chars_count)
+void print_unsigned_int(int no, int *chars_count, char *buffer, int *buffer_indx)
 {
 	char str[100];
+	int str_length = 0;
+	int delete_string = 0;
 
 	if (no < 0)
 		no = -no;
@@ -366,6 +415,20 @@ void print_unsigned_int(int no, int *chars_count)
 	}
 
 	*chars_count += _strlen(str);
+
+
+	while (str[str_length] != '\0'){
+					buffer[(*buffer_indx)++]=str[str_length];
+					
+					str_length++;
+
+					if ((*buffer_indx)==BUFF_SIZE)
+						{
+							write(1,buffer,(*buffer_indx));
+							for (;delete_string <= _strlen(buffer); delete_string++)
+								buffer[delete_string] = '\0';
+						}
+                }
 
 }
 
@@ -410,13 +473,13 @@ int _strlen(char *s)
 }
 
 
-/*int main(void/)
+int main(void)
 {
 	int no = 700;
 
 	_printf("Integer = %d, String = %s\n", no, "hello");
 	_printf("Hello, World!\n");
-	_printf("Hello, %s!\n", "World");
+	_printf("Hlo, %s!\n", "World");
 	_printf("Hello, %c!\n", 'W');
 	_printf("Hello, %%!\n");
 	_printf("integer = %i\n", 100);
@@ -426,4 +489,23 @@ int _strlen(char *s)
 	_printf("hex: %x\n", 100);
 	_printf("HEX: %X\n", 100);
 	return (0);
-}*/
+}
+
+
+
+/*
+int main() {
+    char myString[] = "Hello, World!";
+	int delete_string = 0;
+
+    printf("Original String: %s\n", myString);
+
+	for (;delete_string <= _strlen(buffer); delete_string++)
+					buffer[delete_string] = '\0';
+    
+
+    printf("Modified String: %s: with lenght %d", myString, _strlen(myString));
+
+    return 0;
+}
+*/
