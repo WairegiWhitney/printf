@@ -88,7 +88,7 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == 'b')
 			{
-				int str_length=0;
+				/*int str_length=0;*/
 				
 				unsigned int num = va_arg(my_args_list, unsigned int);
 
