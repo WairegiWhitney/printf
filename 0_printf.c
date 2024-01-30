@@ -9,11 +9,10 @@
  */
 int _printf(const char *format, ...)
 {
-	int chars_count = 0;
+	int charc = 0;
 	va_list my_args_list;
-	char buffer[1020];
-	int buffer_indx = 0;
-	int delete_string = 0;
+	char bufer[1020];
+	int buferi = 0;
 
 	if (format == NULL)
 		return (-1);
@@ -22,14 +21,9 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			buffer[buffer_indx++] = *format;
-			chars_count++;
-			if (buffer_indx == BUFF_SIZE)
-			{
-				write(1, buffer, buffer_indx);
-				for (; delete_string <= _strlen(buffer); delete_string++)
-					buffer[delete_string] = '\0';
-			}
+			bufer[buferi++] = *format;
+			charc++;
+			checkbuffer(bufer, &buferi);
 		}
 		else
 		{
@@ -38,31 +32,20 @@ int _printf(const char *format, ...)
 			{
 				char c = va_arg(my_args_list, int);
 
-				buffer[buffer_indx++] = c;
-				chars_count++;
-				if (buffer_indx == BUFF_SIZE)
-				{
-					write(1, buffer, buffer_indx);
-					for (; delete_string <= _strlen(buffer); delete_string++)
-						buffer[delete_string] = '\0';
-				}
+				bufer[buferi++] = c;
+				charc++;
+				checkbuffer(bufer, &buferi);
 			}
 			else if (*format == 's')
 			{
 				int str_length = 0;
-
 				char *str = va_arg(my_args_list, char *);
+
 				while (str[str_length] != '\0')
 				{
-					buffer[buffer_indx++] = str[str_length];
-					if (buffer_indx == BUFF_SIZE)
-					{
-						write(1, buffer, buffer_indx);
-						for (; delete_string <= _strlen(buffer); delete_string++)
-							buffer[delete_string] = '\0';
-					}
-
-					chars_count++;
+					bufer[buferi++] = str[str_length];
+					checkbuffer(bufer, &buferi);
+					charc++;
 					str_length++;
 				}
 			}
@@ -72,70 +55,58 @@ int _printf(const char *format, ...)
 				int num = va_arg(my_args_list, int);
 				char str[100];
 				int no = num;
-				stringfromint(no, str);
 
+				stringfromint(no, str);
 				while (str[str_length] != '\0')
 				{
-					buffer[buffer_indx++] = str[str_length];
-					chars_count++;
+					bufer[buferi++] = str[str_length];
+					charc++;
 					str_length++;
-
-					if (buffer_indx == BUFF_SIZE)
-					{
-						write(1, buffer, buffer_indx);
-						for(; delete_string <= _strlen(buffer); delete_string++)
-							buffer[delete_string] = '\0';
-					}
+					checkbuffer(bufer, &buferi);
 				}
 			}
 			else if (*format == 'b')
-			{
-				unsigned int num = va_arg(my_args_list, unsigned int);
-
-				dec2binstring(num, &chars_count, buffer, &buffer_indx);
-			}
+				dec2binstring(va_arg(my_args_list, unsigned int), &charc, bufer, &buferi);
 			else if (*format == 'u')
-			{
-				int num = va_arg(my_args_list, int);
-
-				print_unsigned_int(num, &chars_count, buffer, &buffer_indx);
-			}
+				print_unsigned_int(va_arg(my_args_list, int), &charc, bufer, &buferi);
 			else if (*format == 'o')
-			{
-				unsigned int num = va_arg(my_args_list, unsigned int);
-
-				dec2octalstring(num, &chars_count, buffer, &buffer_indx);
-			}
+				dec2octalstring(va_arg(my_args_list, unsigned int), &charc, bufer, &buferi);
 			else if (*format == 'x')
-			{
-				unsigned int num = va_arg(my_args_list, unsigned int);
-
-				dec2hexstring(num, &chars_count, buffer, &buffer_indx);
-			}
+				dec2hexstring(va_arg(my_args_list, unsigned int), &charc, bufer, &buferi);
 			else if (*format == 'X')
-			{
-				unsigned int num = va_arg(my_args_list, unsigned int);
-
-				dec2HEXstring(num, &chars_count, buffer, &buffer_indx);
-			}
+				dec2HEXstring(va_arg(my_args_list, unsigned int), &charc, bufer, &buferi);
 			else if (*format == '%')
 			{
-				buffer[buffer_indx++] = *format;
-				chars_count++;
-				if (buffer_indx == BUFF_SIZE)
-				{
-					write(1, buffer, buffer_indx);
-					for (; delete_string <= _strlen(buffer); delete_string++)
-						buffer[delete_string] = '\0';
-				}
+				bufer[buferi++] = *format;
+				charc++;
+				checkbuffer(bufer, &buferi);
 			}
 		}
 	}
-	if (buffer_indx > 0)
+	if (buferi > 0)
 	{
-		write(1, buffer, buffer_indx);
-		buffer_indx = 0;
+		write(1, bufer, buferi);
+		buferi = 0;
 	}
 	va_end(my_args_list);
-	return (chars_count);
+	return (charc);
+}
+
+
+/**
+ * checkbuffer - check if buffer is full, if so, print and reset
+ * @buffer: buffer to check
+ * @buffer_indx: index of buffer
+ * Return: void
+*/
+void checkbuffer(char *buffer, int *buffer_indx)
+{
+	int delete_string = 0;
+
+	if ((*buffer_indx) == BUFF_SIZE)
+	{
+		write(1, buffer, (*buffer_indx));
+		for (; (delete_string) <= _strlen(buffer); (delete_string)++)
+			buffer[(delete_string)] = '\0';
+	}
 }

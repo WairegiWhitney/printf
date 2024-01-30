@@ -5,9 +5,12 @@
  * print_unsigned_int - print unsigned int
  * @no: integer to change
  * @chars_count: number of chars printed
+ * @buffer: buffer to store output
+ * @buffer_indx: index of buffer
  * Return: void
  */
-void print_unsigned_int(int no, int *chars_count, char *buffer, int *buffer_indx)
+void print_unsigned_int(int no, int *chars_count,
+char *buffer, int *buffer_indx)
 {
 	char str[100];
 	int str_length = 0;

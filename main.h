@@ -14,7 +14,7 @@
 
 int _strlen(char *s);
 void rev_string(char *s, int b);
-int _strlen(char *s);
+void checkbuffer(char *buffer, int *buffer_indx);
 
 void stringfromint(int no, char *str);
 void dec2binstring
