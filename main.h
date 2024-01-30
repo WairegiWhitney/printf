@@ -9,8 +9,9 @@
 
 #define BUFF_SIZE 1024
 #include "_strlen.c"
-#include "stringfromint.c"
 #include "rev_string.c"
+#include "stringfromint.c"
+
 #include "print_unsigned_int.c"
 #include "dec2binstring.c"
 #include "dec2octalstring.c"
@@ -20,10 +21,13 @@
 
 
 int _strlen(char *s);
+void rev_string(char *s, int b);
+int _strlen(char *s);
+
 void stringfromint(int no, char *str);
 void dec2binstring
 	(unsigned int no, int *chars_count, char *buffer, int *buffer_indx);
-void rev_string(char *s, int b);
+
 void print_unsigned_int
 	(int no, int *chars_count, char *buffer, int *buffer_indx);
 void dec2octalstring
@@ -36,7 +40,7 @@ void dec2HEXstring
 int _printf(const char *format, ...);
 
 
-int _strlen(char *s);
+
 
 
 
