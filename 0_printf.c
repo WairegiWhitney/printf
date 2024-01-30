@@ -139,21 +139,3 @@ int _printf(const char *format, ...)
 	va_end(my_args_list);
 	return (chars_count);
 }
-
-int main(void)
-{
-	int no = 700;
-
-	_printf("Integer = %d, String = %s\n", no, "hello");
-	_printf("Hello, World!\n");
-	_printf("Hello, %s!\n", "World");
-	_printf("Hello, %c!\n", 'W');
-	_printf("Hello, %%!\n");
-	_printf("integer = %i\n", 100);
-	_printf("binary: %b\n", 10);
-	_printf("unsigned int: %u\n", -890);
-	_printf("octal: %o\n", 10);
-	_printf("hex: %x\n", 100);
-	_printf("HEX: %X\n", 100);
-	return (0);
-}

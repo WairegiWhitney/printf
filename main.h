@@ -8,7 +8,15 @@
 
 
 #define BUFF_SIZE 1024
+#include "_strlen.c"
+#include "rev_string.c"
+#include "stringfromint.c"
 
+#include "print_unsigned_int.c"
+#include "dec2binstring.c"
+#include "dec2octalstring.c"
+#include "dec2hexstrin.c"
+#include "dec2HEXstring.c"
 
 
 
